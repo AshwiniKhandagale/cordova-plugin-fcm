@@ -66,44 +66,34 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		for (String key : data.keySet()) {
 			intent.putExtra(key, data.get(key).toString());
 		}
-        // PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-        //         PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                PendingIntent.FLAG_ONE_SHOT);
 
-        // Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        // NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-        //         .setSmallIcon(getApplicationInfo().icon)
-        //         .setContentTitle(title)
-        //         .setContentText(messageBody)
-        //         .setAutoCancel(true)
-        //         .setSound(defaultSoundUri)
-        //         .setContentIntent(pendingIntent);
-
-        // NotificationManager notificationManager =
-        //         (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        // notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
-         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-    String NOTIFICATION_CHANNEL_ID = "tutorialspoint_01";
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "My Notifications", NotificationManager.IMPORTANCE_HIGH);
-        // Configure the notification channel.
-        notificationChannel.setDescription("Sample Channel description");
-        notificationChannel.enableLights(true);
-        // notificationChannel.setLightColor(Color.RED);
-        notificationChannel.setVibrationPattern(new long[]{0, 1000, 500, 1000});
-        notificationChannel.enableVibration(true);
-        notificationManager.createNotificationChannel(notificationChannel);
-    }
-    NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
-    notificationBuilder.setAutoCancel(true)
-            .setDefaults(Notification.DEFAULT_ALL)
-            .setWhen(System.currentTimeMillis())
-            .setSmallIcon(getApplicationInfo().icon)
-            .setTicker("Tutorialspoint")
-            .setPriority(Notification.PRIORITY_HIGH)
-            .setContentTitle("sample notification")
-            .setContentText("This is sample notification")
-            .setContentInfo("Information");
-    notificationManager.notify(1, notificationBuilder.build());
+        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(getApplicationInfo().icon)
+                .setContentTitle(title)
+                .setContentText(messageBody)
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent);
+     NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)
+{
+    int importance = NotificationManager.IMPORTANCE_HIGH;
+    NotificationChannel notificationChannel = new NotificationChannel("101", "VirGo", importance);
+    notificationChannel.enableLights(true);
+ 
+    notificationChannel.enableVibration(true);
+    notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+    assert notificationManager != null;
+    notificationBuilder.setChannelId("101");
+    notificationManager.createNotificationChannel(notificationChannel);
+}
+assert notificationManager != null;
+       
+        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+      
     }
 }
