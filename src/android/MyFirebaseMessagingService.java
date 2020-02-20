@@ -10,6 +10,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import java.util.Map;
 import java.util.HashMap;
+import android.os.Build;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -81,25 +82,25 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         //         (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         // notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
-         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     String NOTIFICATION_CHANNEL_ID = "tutorialspoint_01";
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "My Notifications", NotificationManager.IMPORTANCE_HIGH);
         // Configure the notification channel.
         notificationChannel.setDescription("Sample Channel description");
         notificationChannel.enableLights(true);
-        notificationChannel.setLightColor(Color.RED);
+        // notificationChannel.setLightColor(Color.RED);
         notificationChannel.setVibrationPattern(new long[]{0, 1000, 500, 1000});
         notificationChannel.enableVibration(true);
         notificationManager.createNotificationChannel(notificationChannel);
     }
-    NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(mContext, NOTIFICATION_CHANNEL_ID);
+    NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
     notificationBuilder.setAutoCancel(true)
-            .setDefaults(NotificationCompat.DEFAULT_ALL)
+            .setDefaults(Notification.DEFAULT_ALL)
             .setWhen(System.currentTimeMillis())
-            .setSmallIcon(R.mipmap.ic_launcher)
+            .setSmallIcon(getApplicationInfo().icon)
             .setTicker("Tutorialspoint")
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setPriority(Notification.PRIORITY_HIGH)
             .setContentTitle("sample notification")
             .setContentText("This is sample notification")
             .setContentInfo("Information");
