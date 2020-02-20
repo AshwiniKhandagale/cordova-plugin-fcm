@@ -65,21 +65,44 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		for (String key : data.keySet()) {
 			intent.putExtra(key, data.get(key).toString());
 		}
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+        // PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+        //         PendingIntent.FLAG_ONE_SHOT);
 
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(getApplicationInfo().icon)
-                .setContentTitle(title)
-                .setContentText(messageBody)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
+        // Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        // NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+        //         .setSmallIcon(getApplicationInfo().icon)
+        //         .setContentTitle(title)
+        //         .setContentText(messageBody)
+        //         .setAutoCancel(true)
+        //         .setSound(defaultSoundUri)
+        //         .setContentIntent(pendingIntent);
 
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        // NotificationManager notificationManager =
+        //         (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        // notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+    String NOTIFICATION_CHANNEL_ID = "tutorialspoint_01";
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "My Notifications", NotificationManager.IMPORTANCE_HIGH);
+        // Configure the notification channel.
+        notificationChannel.setDescription("Sample Channel description");
+        notificationChannel.enableLights(true);
+        notificationChannel.setLightColor(Color.RED);
+        notificationChannel.setVibrationPattern(new long[]{0, 1000, 500, 1000});
+        notificationChannel.enableVibration(true);
+        notificationManager.createNotificationChannel(notificationChannel);
+    }
+    NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(mContext, NOTIFICATION_CHANNEL_ID);
+    notificationBuilder.setAutoCancel(true)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
+            .setWhen(System.currentTimeMillis())
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setTicker("Tutorialspoint")
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentTitle("sample notification")
+            .setContentText("This is sample notification")
+            .setContentInfo("Information");
+    notificationManager.notify(1, notificationBuilder.build());
     }
 }
