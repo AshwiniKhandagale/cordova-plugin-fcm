@@ -97,7 +97,7 @@ intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 for (String key : data.keySet()) {
 intent.putExtra(key, data.get(key).toString());
 }
-PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 / Request code /, intent,
+PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent,
 PendingIntent.FLAG_ONE_SHOT);
 String channelId = "101";
 String channelName ="Virgo";
@@ -116,6 +116,6 @@ NotificationChannel channel = new NotificationChannel(channelId, channelName,
 NotificationManager,IMPORTANCE_HIGH);
 notificationManager.createNotificationChannel(channel);
 }
-notificationManager.notify(0 / ID of notification */, notificationBuilder.build());
+notificationManager.notify(0 , notificationBuilder.build());
 }
 }
